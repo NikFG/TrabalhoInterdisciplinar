@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+  <!DOCTYPE html>
+  <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:b="http://bootsfaces.net/ui">
+      <h:head>
+          <title>Hotel Aloha</title>
+          <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+      </h:head>
+      <h:body style="padding-top: 50px; padding-bottom: 20px;">
+          <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
+              <b:navbarLinks>
+                  <b:navLink value="Reservas" href="reservas.xhtml"></b:navLink>
+                  <b:dropMenu value="Sobre">
+                      <b:navLink value="Localização" href="local.xhtml"></b:navLink>
+                      <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
+                  </b:dropMenu>
+              </b:navbarLinks>
+              <h:form styleClass="navbar-form navbar-right" style="display: #{hospede.email eq null ? 'block' : 'gone'}">
+                  <div class="form-group">
+                      <b:inputText id="login" placeholder="Email"/>
+                  </div>
+                  <div class="form-group">
+                      <b:inputSecret id="senha" placeholder="Senha"/>
+                  </div>
+                  <div class="form-group">
+                      <b:commandButton value="Logar" look="info" icon="chevron-right" iconAlign="right"/>
+                  </div>
+              </h:form>
+          </b:navBar>
+          <br></br><br></br><br></br>
+             <b:container>
+                  <h2>Venha curtir suas férias em nosso Hotel!</h2>
+                  <p>Faça seu cadastro e seja um cliente!
+                  </p>
+                  <br></br>
+                  <p>
+                      <a href="cadastro.xhtml" class="btn btn-lg btn-info">Cadastre-se »</a>
+                  </p>
+              </b:container>
+     
+          
+   
+      </h:body>
+  </html>
