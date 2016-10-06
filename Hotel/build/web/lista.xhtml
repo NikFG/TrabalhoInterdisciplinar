@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Hotel Aloha</title>
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <style>
+            .hclass{
+                text-align:center;
+                background:none repeat scroll 0 0 #E5E5E5;
+                border-bottom:1px solid #BBBBBB;
+                padding:16px;
+            }
+        </style>
+    </h:head>
+    <h:body style="padding-top: 50px; padding-bottom: 20px;">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+            <b:navbarLinks>
+                <b:navLink value="Reservas" href="reservas.xhtml"></b:navLink>
+                <b:dropMenu value="Sobre">
+                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
+                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
+                </b:dropMenu>
+            </b:navbarLinks>
+            <h:form styleClass="navbar-form navbar-right" style="display: #{hospede.email eq null ? 'block' : 'gone'}">
+                <div class="form-group">
+                    <b:inputText id="login" placeholder="Email"/>
+                </div>
+                <div class="form-group">
+                    <b:inputSecret id="senha" placeholder="Senha"/>
+                </div>
+                <div class="form-group">
+                    <b:commandButton value="Logar" look="info" icon="chevron-right" iconAlign="right"/>
+                </div>
+            </h:form>
+        </b:navBar>
+        <br></br><br></br><br></br>
+        <b:container>
+            <h1>Quartos</h1>
+            <h:form>
+                <b:commandButton action="login" value="Confirmar"></b:commandButton>
+            </h:form>
+            <b:row>
+                <b:column span="12">
+                    <h:outputText value="#{backingBean.entrada}"/>
+                    <br/>
+                    <h:outputText value="#{backingBean.saida}"/>
+                    <br/>
+                    <h:outputText value="#{backingBean.tipo}"/>
+                    <br/><br/><br/>                    
+                </b:column>
+            </b:row>
+            <h:dataTable value="#{order.orderList}" var="o" headerClass="hclass">
+
+    			<h:column>
+    				<!-- column header -->
+    				<f:facet name="header">Quarto</f:facet>
+    				<!-- row record -->
+    				#{o.orderNo}
+    			</h:column>
+
+    			<h:column>
+    				<f:facet name="header">Tipo</f:facet>
+    				#{o.productName}
+    			</h:column>
+
+    			<h:column>
+    				<f:facet name="header">Preço</f:facet>
+    				#{o.price}
+    			</h:column>
+
+    			<h:column>
+    				<f:facet name="header">Foto</f:facet>
+    				#{o.qty}
+    			</h:column>
+
+    		</h:dataTable>
+        </b:container>
+
+
+
+    </h:body>
+</html>
