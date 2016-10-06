@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Hotel Aloha</title>
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+    </h:head>
+    <h:body style="padding-top: 50px; padding-bottom: 20px;">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+            <b:navbarLinks>
+                <b:navLink value="Reservas" href="reservas.xhtml" style="display: #{comunicacao.getNome() eq null ? 'none' : 'block'}"></b:navLink>
+                <b:navLink value="Contate-nos" href="contate.xhtml"></b:navLink>
+                <b:dropMenu value="Sobre">
+                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
+                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
+                </b:dropMenu>
+            </b:navbarLinks>
+            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getNome() eq null ? 'block' : 'none'}">
+                <div class="form-group">
+                    <b:inputText id="login" placeholder="Email" value="#{hospede.email}"/>
+                </div>
+                <div class="form-group">
+                    <b:inputSecret id="senha" placeholder="Senha" value="#{hospede.senha}"/>
+                </div>
+                <div class="form-group">
+                    <b:commandButton value="Logar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,index)}"/>
+                </div>
+            </h:form>
+            <b:navbarLinks style="float:right">
+                <b:navLink value="Olá #{comunicacao.nome} !" style="display: #{comunicacao.getNome() eq null ? 'none' : 'block'}"></b:navLink>
+            </b:navbarLinks>
+        </b:navBar>
+        <br/>
+        <h:form style="display:none;" binding="#{comunicacao.form}">
+            <b:container>
+                <b:row>
+                    <b:column span="7"></b:column>
+                    <b:column span="4">
+                        <b:alert severity="danger" closable="true" style="padding:5px"><h:outputText binding="#{comunicacao.opt}" value=""/></b:alert>
+                    </b:column>
+                </b:row>
+            </b:container>
+        </h:form>
+
+        <br/>
+
+                
+        <b:container>
+            <h2>Venha curtir suas férias em nosso Hotel!</h2>
+            
+            <br></br>
+        </b:container>
+
+
+
+    </h:body>
+</html>
