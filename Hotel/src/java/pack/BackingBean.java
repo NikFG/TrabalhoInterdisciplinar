@@ -5,9 +5,9 @@
  */
 package pack;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import javax.faces.bean.ManagedBean;
-import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlInputText;
 
 /**
  *
@@ -16,51 +16,35 @@ import javax.faces.component.html.HtmlInputText;
 @ManagedBean
 public class BackingBean {
     
-    private HtmlInputText email;
-    private HtmlInputText senha;
-    private HtmlCommandButton botao;
+    private String entrada;
+    private String saida;
+    private String tipo;
 
     public BackingBean() {
     }
 
-    public BackingBean(HtmlInputText email, HtmlInputText senha, HtmlCommandButton botao) {
-        this.email = email;
-        this.senha = senha;
-        this.botao = botao;
+    public String getTipo() {
+        return tipo;
     }
 
-    public HtmlInputText getEmail() {
-        return email;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public void setEmail(HtmlInputText email) {
-        this.email = email;
+    public String getSaida() {
+        return saida;
     }
 
-    public HtmlInputText getSenha() {
-        return senha;
+    public void setSaida(String saida) {
+        this.saida = saida;
     }
 
-    public void setSenha(HtmlInputText senha) {
-        this.senha = senha;
+    public String getEntrada() {
+        return entrada;
     }
 
-    public HtmlCommandButton getBotao() {
-        return botao;
-    }
-
-    public void setBotao(HtmlCommandButton botao) {
-        this.botao = botao;
-    }
-    
-    public void testar(){
-        if(this.email.isDisabled()) {
-            email.setDisabled(false);
-            botao.setStyle("");
-        } else {
-            email.setDisabled(true);
-            botao.setStyle("color: white; background-color: red;");
-        }
+    public void setEntrada(String entrada) {
+        this.entrada = entrada;
     }
     
 }
