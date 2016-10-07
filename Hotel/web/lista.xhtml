@@ -7,6 +7,7 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <script src="#{request.contextPath}/js/script.js"/>
         <style>
             .hclass{
                 text-align:center;
@@ -17,67 +18,159 @@
         </style>
     </h:head>
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Reservas" href="reservas.xhtml"></b:navLink>
-                <b:dropMenu value="Sobre">
-                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
-                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
+            </b:navbarLinks>
+            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getId() eq 0 ? 'inline' : 'none'}" id="flog">
+                <div class="form-group">
+                    <b:inputText id="login" placeholder="Email" value="#{hospede.email}"/>
+                </div>
+                <div class="form-group">
+                    <b:inputSecret id="senha" placeholder="Senha" value="#{hospede.senha}"/>
+                </div>
+                <div class="form-group">
+                    <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'lista')}"/>
+                </div>
+            </h:form>
+            <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
+                <b:dropMenu value=" #{comunicacao.nome}">
+                    <h:form id='fsaud'>
+                        <h:inputHidden value="#{comunicacao.nome}" id="snome"/>
+                        <h:inputHidden value="#{comunicacao.id}" id="sid"/>
+                        <b:commandButton action="reservas" value="Reservas" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:commandButton action="editar" value="Editar perfil" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:button onclick="sair();" value="Sair" style="text-align: left;width:100%;border:none;background: transparent;color:#777"/>
+                        
+                    </h:form>
                 </b:dropMenu>
             </b:navbarLinks>
-            <h:form styleClass="navbar-form navbar-right" style="display: #{hospede.email eq null ? 'block' : 'gone'}">
-                <div class="form-group">
-                    <b:inputText id="login" placeholder="Email"/>
-                </div>
-                <div class="form-group">
-                    <b:inputSecret id="senha" placeholder="Senha"/>
-                </div>
-                <div class="form-group">
-                    <b:commandButton value="Logar" look="info" icon="chevron-right" iconAlign="right"/>
-                </div>
-            </h:form>
         </b:navBar>
-        <br></br><br></br><br></br>
-        <b:container>
-            <h1>Quartos</h1>
-            <h:form>
-                <b:commandButton action="login" value="Confirmar"></b:commandButton>
-            </h:form>
-            <b:row>
-                <b:column span="12">
-                    <h:outputText value="#{backingBean.entrada}"/>
-                    <br/>
-                    <h:outputText value="#{backingBean.saida}"/>
-                    <br/>
-                    <h:outputText value="#{backingBean.tipo}"/>
-                    <br/><br/><br/>                    
-                </b:column>
-            </b:row>
-            <h:dataTable value="#{order.orderList}" var="o" headerClass="hclass">
 
-    			<h:column>
-    				<!-- column header -->
-    				<f:facet name="header">Quarto</f:facet>
-    				<!-- row record -->
-    				#{o.orderNo}
-    			</h:column>
+        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform2">
+            <b:container id="con">
+                <b:row>
+                    <b:column span="7">
+                    <b:shake onshake="sair();"/></b:column>
+                    <b:column span="4">
+                        <b:alert severity="danger" style="padding:5px; margin-top:10px"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
+                    </b:column>
+                </b:row>
+            </b:container>
+        </h:form>
 
-    			<h:column>
-    				<f:facet name="header">Tipo</f:facet>
-    				#{o.productName}
-    			</h:column>
+        <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '0px'};">
+            <center>
 
-    			<h:column>
-    				<f:facet name="header">Preço</f:facet>
-    				#{o.price}
-    			</h:column>
+                <h:form id="escolha">
+                    <b:row>
+                        <b:column span="1"></b:column>
+                        <b:column span="2">
+                            <div class="form-group" onchange="verificar1(1)">
+                                <b:datepicker id="entrada" placeholder="__/__/____" span="12" tooltip="Entrada" mode="popup-icon" firstDay="1" changeMonth="true" changeYear="true" value="#{consulta.dentrada}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </b:datepicker>
+                            </div>
+                        </b:column>
+                        <b:column span="1"></b:column>
+                        <b:column span="2">
+                            <div class="form-group" onchange="verificar1(2)">
+                                <b:datepicker id="saida" placeholder="__/__/____" span="12" tooltip="Saída" mode="popup-icon" firstDay="1" changeMonth="true" changeYear="true" value="#{consulta.dsaida}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </b:datepicker>
+                            </div>
+                        </b:column>
+                        <b:column span="1"></b:column>
+                        <b:column span="3">
+                            <div class="form-group">
+                                <b:selectOneMenu onchange="verificar2()" value="#{consulta.tipo}" tooltip="Tipo de quarto" id="tipo" span="9">
+                                    <f:facet name="append">
+                                        <b:iconAwesome name="home"/>
+                                    </f:facet>
+                                    <f:selectItem itemLabel="Selecione" itemValue=""/>
+                                    <f:selectItem itemLabel="1 lugar" itemValue="1 lugar"/>
+                                    <f:selectItem itemLabel="2 lugares" itemValue="2 lugares"/>
+                                    <f:selectItem itemLabel="3 lugares" itemValue="3 lugares"/>
+                                    <f:selectItem itemLabel="4 lugares" itemValue="4 lugares"/>
+                                </b:selectOneMenu>
+                            </div>
+                        </b:column>
+                        <b:column span="1">
+                            <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                            <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                            <b:commandButton onclick="verificar2()" action="#{consulta.verificar()}" value="Buscar"/>
+                        </b:column>
+                    </b:row>
+                    <b:row id="linha" style="visibility:hidden">
+                        <b:column span="1"></b:column>
+                        <b:column span="5">
+                            <b:alert severity="warning" style="padding:5px; margin-top:10px;margin-right:0px" id="alert"><h:outputText value="Aviso" id="aviso"/></b:alert>
+                        </b:column>
+                        <b:column span="1"></b:column>
+                        <b:column span="4">
+                            <b:alert severity="warning" style="padding:5px; margin-top:10px;margin-right:0px" id="alert2"><h:outputText value="Aviso" id="aviso2"/></b:alert>
+                        </b:column>
+                    </b:row>
+                </h:form>
+            </center>
+        </b:container>
 
-    			<h:column>
-    				<f:facet name="header">Foto</f:facet>
-    				#{o.qty}
-    			</h:column>
+        <div style="padding-top:200px;display: #{comunicacao.getId() eq 0 ? 'none' : 'inline'}"><br/></div>
+        <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '2px'};display:#{consulta.isEmpty() eq true ? 'none' : 'block' }">
+            <center>    
+                <h1>Quartos</h1>
+                <b:row>
+                    <b:column span="12">
+                        <h:outputText value="#{consulta.dentrada.date le 9 ? '0' : ''}#{consulta.dentrada.date}#{consulta.dentrada != null ? '/' : ''}#{consulta.dentrada.month le 8 ? '0' : ''}#{consulta.dentrada.month+1}#{consulta.dentrada != null ? '/' : ''}#{consulta.dentrada.year+3900} "/>
+                        <br/>
+                        <h:outputText value="#{consulta.dsaida.date le 9 ? '0' : ''}#{consulta.dsaida.date}#{consulta.dentrada != null ? '/' : ''}#{consulta.dsaida.month le 8 ? '0' : ''}#{consulta.dsaida.month+1}#{consulta.dentrada != null ? '/' : ''}#{consulta.dsaida.year+3900} "/>
+                        <br/>
+                        <h:outputText value="#{consulta.tipo}"/>
+                        <br/><br/><br/>                    
+                    </b:column>
+                </b:row>
+                <h:dataTable value="#{order.orderList}" var="o" headerClass="hclass">
 
-    		</h:dataTable>
+                    <h:column>
+                        <!-- column header -->
+                        <f:facet name="header">Quarto</f:facet>
+                        <!-- row record -->
+                        #{o.att}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Tipo</f:facet>
+                            #{o.productName}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Preço</f:facet>
+                            #{o.price}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Foto</f:facet>
+                            #{o.qty}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Informações</f:facet>
+                    </h:column>
+
+                </h:dataTable>
+                        <h:form>
+                            <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                            <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                            <b:commandButton action="#{comunicacao.isLogged()}" value="Mais"></b:commandButton>
+                        </h:form>
+            </center>
         </b:container>
 
 

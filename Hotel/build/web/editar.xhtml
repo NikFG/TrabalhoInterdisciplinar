@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Hotel Aloha</title>
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <script src="#{request.contextPath}/js/script.js"/>
+    </h:head>
+    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="#{comunicacao.getId() eq 0 ? 'sair()' : ''};">
+        #{comunicacao.getId() eq 0 ? "" : edita.preencher(comunicacao.id)}
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
+            <b:navbarLinks>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
+            </b:navbarLinks>
+            <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
+                <b:dropMenu value=" #{comunicacao.nome}">
+                    <h:form id='fsaud'>
+                        <h:inputHidden value="#{comunicacao.nome}" id="snome"/>
+                        <h:inputHidden value="#{comunicacao.id}" id="sid"/>
+                        <b:commandButton action="reservas" value="Reservas" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:commandButton action="editar" value="Editar perfil" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:button onclick="sair();" value="Sair" style="text-align: left;width:100%;border:none;background: transparent;color:#777"/>
+                        
+                    </h:form>
+                </b:dropMenu>
+            </b:navbarLinks>
+        </b:navBar>
+
+        <h:form style="display:none;" binding="#{comunicacao.form}" id="aform7">
+            <b:shake onshake="sair();"/>
+        </h:form>
+        <br/>
+        <b:container>
+            <h:form id="form">
+                <center>
+
+                    <b:container>
+                        <b:row>
+                            <b:column span="4"></b:column>
+                            <b:column span="4">
+                                <table>
+                                    <tr>
+                                        <td colspan="2"><h1 style="text-align:center">Editar perfil</h1><br/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nome:</td>
+                                        <td><b:inputText id="nome" required="true" value="#{edita.nome}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CPF:</td>
+                                        <td><b:inputText id="cpf" required="true" value="#{edita.CPF}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rua:</td>
+                                        <td><b:inputText id="rua" required="true" value="#{edita.endRua}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Número:</td>
+                                        <td><b:inputText id="numero" required="true" value="#{edita.endNumero}"></b:inputText></td>
+                                    </tr>
+                                    <tr> 
+                                        <td>Complemento:</td>
+                                        <td><b:inputText id="complemento" required="true" value="#{edita.endComplemento}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Bairro:</td>
+                                        <td><b:inputText id="bairro" required="true" value="#{edita.endBairro}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cidade:</td>
+                                        <td><b:inputText id="cidade" required="true" value="#{edita.endCidade}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CEP:</td>
+                                        <td><b:inputText id="cep" required="true" value="#{edita.endCEP}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Data de Nascimento:&#160;&#160;&#160;</td>
+                                        <td><b:inputText styleClass="data" id="data" required="true" value="#{edita.dataNascimento}">                            
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </b:inputText>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefone Residência:</td>
+                                        <td><b:inputText id="telr" required="true" value="#{edita.telefoneResidencia}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Telefone Celular:</td>
+                                        <td><b:inputText id="telc" required="true" value="#{edita.telefoneCelular}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Identidade:</td>
+                                        <td><b:inputText id="identidade" required="true" value="#{edita.identidade}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Email:</td>
+                                        <td><b:inputText id="email" required="true" value="#{edita.email}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Senha:</td>
+                                        <td><b:inputText id="senha" required="true" value="#{edita.senha}"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="1" style='padding:0 5px'>
+                                            <br></br>
+                                            <b:commandButton look='primary' value="Voltar" style="width:100%;padding: 5px 0;" onclick="window.history.back()"></b:commandButton>
+                                        </td>
+                                        <td colspan="1" style='padding:0 5px'>
+                                            <h:inputHidden value="#{comunicacao.nome}" id="snome"/>
+                                            <h:inputHidden value="#{comunicacao.id}" id="sid"/>
+                                            <br></br>
+                                            <b:commandButton look='success' value="Editar" style="width:100%;padding: 5px 0;" action="#{edita.editar()}"></b:commandButton>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </b:column>
+                            <b:column span="4"></b:column>
+                        </b:row>
+                    </b:container>
+                </center>
+            </h:form>
+        </b:container>
+
+
+
+    </h:body>
+</html>

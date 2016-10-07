@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import javax.faces.bean.ManagedBean;
 
 /**
  *
@@ -25,7 +26,7 @@ public class DaoHospede {
     private final Statement stmt;
     private ResultSet result;
     private final PreparedStatement pstm, view;
-
+    
     public DaoHospede(Connection conn) throws SQLException {
         this.conn = conn;
         //Criando o Statement para conversaÃ§Ã£o com o banco
@@ -75,8 +76,7 @@ public class DaoHospede {
     }
 
     public void editar(Hospede hospede) throws SQLException {
-        String SQL = "UPDATE hospede SET" +
-                            "idHospede = ? , " +
+        String SQL = "UPDATE hospede SET " +
                             "Nome = ? , " +
                             "CPF = ? , " +
                             "EndRua = ? , " +
@@ -90,26 +90,35 @@ public class DaoHospede {
                             "TelefoneCelular = ? , " +
                             "Identidade = ? , " +
                             "Email = ? , " +
-                            "Senha = ? , " +
-                            "WHERE `idHospede` = ?";
+                            "Senha = ? " +
+                            "WHERE `Email` = ?";
         /* Aqui vocÃª prepara a SQL para inserir os dadosCargo */
         PreparedStatement ps = conn.prepareStatement(SQL);
         /* que serÃ£o capturados aqui */
-        ps.setInt(1, hospede.getIdHospede());
-        ps.setString(2, hospede.getNome());
-        ps.setString(3, hospede.getCPF());
-        ps.setString(4, hospede.getEndRua());
-        ps.setInt(5, hospede.getEndNumero());
-        ps.setString(6, hospede.getEndComplemento());
-        ps.setString(7, hospede.getEndBairro());
-        ps.setString(8, hospede.getEndCidade());
-        ps.setInt(9, hospede.getEndCEP());
-        ps.setDate(10, (Date) hospede.getDataNascimento());
-        ps.setInt(11, hospede.getTelefoneResidencia());
-        ps.setInt(12, hospede.getTelefoneCelular());
-        ps.setString(13, hospede.getIdentidade());
-        ps.setString(14, hospede.getEmail());
-        ps.setString(15, hospede.getSenha());
+        ps.setString(1, hospede.getNome());
+        ps.setString(2, hospede.getCPF());
+        ps.setString(3, hospede.getEndRua());
+        ps.setInt(4, hospede.getEndNumero());
+        ps.setString(5, hospede.getEndComplemento());
+        ps.setString(6, hospede.getEndBairro());
+        ps.setString(7, hospede.getEndCidade());
+        ps.setInt(8, hospede.getEndCEP());
+            
+        java.util.Date dj = hospede.getDataNascimento();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dj);
+        c.add(Calendar.DATE, 1);
+        dj = c.getTime();
+
+        java.sql.Date d = new java.sql.Date(dj.getTime());
+        ps.setDate(9, d);
+        ps.setInt(10, hospede.getTelefoneResidencia());
+        ps.setInt(11, hospede.getTelefoneCelular());
+        ps.setString(12, hospede.getIdentidade());
+        ps.setString(13, hospede.getEmail());
+        ps.setString(14, hospede.getSenha());
+        ps.setString(15, hospede.getEmail());
+        System.out.println(ps.toString());
         /* executando a atualizaÃ§Ã£o */
         ps.executeUpdate();
         ps.close();

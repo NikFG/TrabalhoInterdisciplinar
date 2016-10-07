@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.component.html.HtmlForm;
 import javax.faces.component.html.HtmlOutputText;
-import javax.faces.context.FacesContext;
 import model.*;
 
 /**
@@ -22,20 +21,22 @@ import model.*;
 @ManagedBean
 public class Comunicacao {
     
-    private String nome;
+    private String nome=null;
+    private int id=0;
     private HtmlOutputText opt;
     private HtmlForm form;
     
     public String login(String Email, String Senha, String opc) throws SQLException, IOException{
         Conector con = new Conector();
         Connection c = con.getConexao();
-        FacesContext context = FacesContext.getCurrentInstance();
         
         if(c!=null){
             DaoHospede dh = new DaoHospede(c);
             Hospede h = dh.pesquisaES(Email, Senha);
             if(h!=null){
+                System.out.println(h.getEmail());
                 nome=h.getNome();
+                id=h.getIdHospede();
                 return opc;
             } else {
                 opt.setValue("Login inválido! Tente novamente.");
@@ -43,7 +44,9 @@ public class Comunicacao {
                 return "";
             }
         } else {
-            return "login";
+            opt.setValue("Não há conexão ativa com a internet!");
+            form.setStyle("visibility:visible; ");
+            return "";
         }        
     }
     
@@ -75,11 +78,30 @@ public class Comunicacao {
             }
         }
         return "cadastro";
+        //?faces-redirect=true
+    }
+    
+    public void preencher() throws SQLException{
+        Conector con = new Conector();
+        Connection c = con.getConexao();
+        if(c!=null){
+            DaoHospede dh = new DaoHospede(c);
+            Hospede h = dh.pesquisaID(id);
+            
+        }
     }
     
     public String verificar(String email, String senha) throws SQLException, IOException{
         String r = login(email,senha,"index");
         return nome;
+    }
+    
+    public String isLogged(){
+        if(nome==null || id==0){
+            return "login";
+        } else{
+            return "confirmacao";
+        }
     }
 
     public Comunicacao(HtmlOutputText opt,HtmlForm form) {
@@ -97,6 +119,14 @@ public class Comunicacao {
 
     public void setOpt(HtmlOutputText opt) {
         this.opt = opt;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNome() {
