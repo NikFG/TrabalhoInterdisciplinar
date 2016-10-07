@@ -186,7 +186,8 @@ public class Hospede {
 
     @Override
     public String toString() {
-        return "Hospede{" + "idHospede=" + idHospede + ", nome=" + nome + ", CPF=" + CPF + ", EndRua=" + EndRua + ", EndNumero=" + EndNumero + ", EndComplemento=" + EndComplemento + ", EndBairro=" + EndBairro + ", EndCidade=" + EndCidade + ", EndCEP=" + EndCEP + ", DataNascimento=" + DataNascimento + ", TelefoneResidencia=" + TelefoneResidencia + ", TelefoneCelular=" + TelefoneCelular + ", Identidade=" + Identidade + ", Email=" + Email + ", Senha=" + Senha + '}';
+        return "Hospede{" + "idHospede=" + idHospede + ", nome=" 
+                + nome + ", CPF=" + CPF + ", EndRua=" + EndRua + ", EndNumero=" + EndNumero + ", EndComplemento=" + EndComplemento + ", EndBairro=" + EndBairro + ", EndCidade=" + EndCidade + ", EndCEP=" + EndCEP + ", DataNascimento=" + DataNascimento + ", TelefoneResidencia=" + TelefoneResidencia + ", TelefoneCelular=" + TelefoneCelular + ", Identidade=" + Identidade + ", Email=" + Email + ", Senha=" + Senha + '}';
     }
     
 }
