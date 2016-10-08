@@ -9,29 +9,36 @@
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
     </h:head>
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Contate-nos" href="contate.xhtml"></b:navLink>
-                <b:dropMenu value="Sobre">
-                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
-                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
-                </b:dropMenu>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
             </b:navbarLinks>
+            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getId() eq 0 ? 'inline' : 'none'}">
+                <div class="form-group">
+                    <b:commandButton value="Voltar" look="info" icon="chevron-left" iconAlign="left" action="login}"/>
+                </div>
+            </h:form>
         </b:navBar>
         <br/>
-        <h:form style="display:none;" binding="#{comunicacao.form}">
-            <b:container>
-                <b:row>
-                    <b:column span="7"></b:column>
-                    <b:column span="4">
-                        <b:alert severity="danger" closable="true" style="padding:5px"><h:outputText binding="#{comunicacao.opt}" value=""/></b:alert>
-                    </b:column>
-                </b:row>
-            </b:container>
-        </h:form>
         <b:container>
-            <h:form id="form">
-                <center>
+            <center>
+                <h:form style="display:none;" binding="#{comunicacao.form}" id="cform">
+                    <b:container>
+                        <b:row>
+                            <b:column span="3">
+                            <b:shake onshake="sair();"/></b:column>
+                            <b:column span="6">
+                                <b:alert severity="danger" style="padding:5px;"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
+                            </b:column>
+                        </b:row>
+                    </b:container>
+                </h:form>
+                <h:form id="form">
 
                     <b:container>
                         <b:row>
@@ -81,6 +88,13 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <td colspan="2">
+                                            <h:panelGroup style="display:none" binding="#{comunicacao.pan}">
+                                                <b:alert severity="info" style="padding:5px; margin:10px 15px 5px 15px;text-align: center"><h:outputText binding="#{comunicacao.opt2}" value="Aviso"/></b:alert>
+                                            </h:panelGroup>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td>Telefone Residência:</td>
                                         <td><b:inputText id="telr" value="#{hospede.telefoneResidencia}"></b:inputText></td>
                                     </tr>
@@ -101,15 +115,15 @@
                                         <td><b:inputSecret id="senha" value="#{hospede.senha}"></b:inputSecret></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><br></br><b:commandButton value="Cadastrar" style="width:100%;padding: 5px 0;" action="#{comunicacao.cadastrar(hospede)}"></b:commandButton></td>
+                                        <td colspan="2"><br></br><b:commandButton look="primary" value="Cadastrar" style="width:100%;padding: 5px 0;" action="#{comunicacao.cadastrar(hospede)}"></b:commandButton></td>
                                     </tr>
                                 </table>
                             </b:column>
                             <b:column span="4"></b:column>
                         </b:row>
                     </b:container>
-                </center>
-            </h:form>
+                </h:form>
+            </center>
         </b:container>
 
 

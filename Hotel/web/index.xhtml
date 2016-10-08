@@ -6,19 +6,20 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Hotel Aloha</title>
-        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />        
+        <script src="#{request.contextPath}/js/script.js"/>
     </h:head>
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Reservas" href="reservas.xhtml" style="display: #{comunicacao.getNome() eq null ? 'none' : 'block'}"></b:navLink>
-                <b:navLink value="Contate-nos" href="contate.xhtml"></b:navLink>
-                <b:dropMenu value="Sobre">
-                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
-                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
-                </b:dropMenu>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
             </b:navbarLinks>
-            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getNome() eq null ? 'inline' : 'none'}">
+            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getId() eq 0 ? 'inline' : 'none'}" id="flog">
                 <div class="form-group">
                     <b:inputText id="login" placeholder="Email" value="#{hospede.email}"/>
                 </div>
@@ -29,56 +30,61 @@
                     <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'index')}"/>
                 </div>
             </h:form>
-            <b:navbarLinks style="float:right">
-                <b:navLink value="Olá #{comunicacao.nome} !" style="display: #{comunicacao.getNome() eq null ? 'none' : 'inline'}"></b:navLink>
+            <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
+                <b:dropMenu value=" #{comunicacao.nome}">
+                    <h:form id='fsaud'>
+                        <h:inputHidden value="#{comunicacao.nome}" id="snome"/>
+                        <h:inputHidden value="#{comunicacao.id}" id="sid"/>
+                        <b:commandButton action="reservas" value="Reservas" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:commandButton action="editar" value="Editar perfil" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:button onclick="sair();" value="Sair" style="text-align: left;width:100%;border:none;background: transparent;color:#777"/>
+                        
+                    </h:form>
+                </b:dropMenu>
             </b:navbarLinks>
         </b:navBar>
 
-        <h:form style="visibility: hidden;" binding="#{comunicacao.form}">
+        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform">
             <b:container>
                 <b:row>
-                    <b:column span="7"></b:column>
+                    <b:column span="7">
+                    <b:shake onshake="sair();"/></b:column>
                     <b:column span="4">
                         <b:alert severity="danger" style="padding:5px; margin-top:10px"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
                     </b:column>
                 </b:row>
             </b:container>
         </h:form>
-        <div style="padding-top:200px;display: #{comunicacao.getNome() eq null ? 'none' : 'inline'}"><br/></div>
 
-        <b:container style="padding-top:#{comunicacao.getNome() eq null ? '0' : '2px'};">
+        <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '0px'};">
             <center>
                 
-                <h:form>
+                <h:form id="escolha">
                     <b:row>
                         <b:column span="1"></b:column>
                         <b:column span="2">
-                            <div class="form-group">
-                                <b:datepicker id="entrada" placeholder="__/__/____" span="12" tooltip="Entrada" mode="popup-icon" firstDay="1" changeMonth="true" changeYear="true" value="#{backingBean.entrada}" required="true"/>
-                                
-                                <!--<b:inputText id="entrada" value="#{backingBean.entrada}" span="10" placeholder="__/__/____">
-                                    <f:facet name="prepend">
-                                        <h:outputText value="Entrada"/>
-                                    </f:facet>
-                                </b:inputText>-->
+                            <div class="form-group" onchange="verificar1(1)">
+                                <b:datepicker id="entrada" placeholder="__/__/____" span="12" tooltip="Entrada" mode="popup-icon" firstDay="1" changeMonth="true" changeYear="true" value="#{consulta.dentrada}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </b:datepicker>
                             </div>
                         </b:column>
                         <b:column span="1"></b:column>
                         <b:column span="2">
-                            <div class="form-group">
-                                <b:inputText id="saida" value="#{backingBean.saida}" span="12" placeholder="__/__/____">
-                                    <f:facet name="prepend">
-                                        <h:outputText value="Saída"/>
-                                    </f:facet>
-                                </b:inputText>
+                            <div class="form-group" onchange="verificar1(2)">
+                                <b:datepicker id="saida" placeholder="__/__/____" span="12" tooltip="Saída" mode="popup-icon" firstDay="1" changeMonth="true" changeYear="true" value="#{consulta.dsaida}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </b:datepicker>
                             </div>
                         </b:column>
                         <b:column span="1"></b:column>
                         <b:column span="3">
                             <div class="form-group">
-                                <b:selectOneMenu value="#{backingBean.tipo}" id="tipo" span="12">
-                                    <f:facet name="prepend">
-                                        <h:outputText value="Tipo de quarto"/>
+                                <b:selectOneMenu onchange="verificar2()" value="#{consulta.tipo}" tooltip="Tipo de quarto" id="tipo" span="9">
+                                    <f:facet name="append">
+                                        <b:iconAwesome name="home"/>
                                     </f:facet>
                                     <f:selectItem itemLabel="Selecione" itemValue=""/>
                                     <f:selectItem itemLabel="1 lugar" itemValue="1 lugar"/>
@@ -89,12 +95,23 @@
                             </div>
                         </b:column>
                         <b:column span="1">
-                            <b:commandButton action="lista" value="Buscar"></b:commandButton>
+                            <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                            <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                            <b:commandButton onclick="verificar2()" action="#{consulta.verificar()}" value="Buscar"/>
+                        </b:column>
+                    </b:row>
+                    <b:row id="linha" style="visibility:hidden">
+                        <b:column span="1"></b:column>
+                        <b:column span="5">
+                            <b:alert severity="warning" style="padding:5px; margin-top:10px;margin-right:0px" id="alert"><h:outputText value="Aviso" id="aviso"/></b:alert>
+                        </b:column>
+                        <b:column span="1"></b:column>
+                        <b:column span="4">
+                            <b:alert severity="warning" style="padding:5px; margin-top:10px;margin-right:0px" id="alert2"><h:outputText value="Aviso" id="aviso2"/></b:alert>
                         </b:column>
                     </b:row>
                     <b:row>
                         <b:column span="12">
-                            <br/><br/>
                             <h2>Venha curtir suas férias em nosso Hotel!</h2>
                             <br/>
                         </b:column>
@@ -102,20 +119,17 @@
                     <b:row>
                         <b:column span="12">    
                             <b:carousel id="carrosel" style="width:80%;height: 500px" interval="2500">
-                                <b:carouselItem >
-                                    <img src="#{request.contextPath}/resources/c1.jpg" alt="Valladolid" style="width: 100%; height: 500px" />
-                                    <b:carouselCaption>
-                                        <h3>Você amará o Hotel Aloha!</h3>
-                                    </b:carouselCaption>
+                                <b:carouselItem caption="Você amará o Hotel Aloha!">
+                                    <img src="#{request.contextPath}/resources/c1.jpg" alt="Imagem 1" style="width: 100%; height: 500px" />
                                 </b:carouselItem>
                                 <b:carouselItem caption="Várias atividades de lazer">
-                                    <img src="#{request.contextPath}/resources/c2.jpg" alt="Valladolid" style="width: 100%; height: 500px" />
+                                    <img src="#{request.contextPath}/resources/c2.jpg" alt="Imagem 2" style="width: 100%; height: 500px" />
                                 </b:carouselItem>
                                 <b:carouselItem caption="Conforto, beleza e organização">
-                                    <img src="#{request.contextPath}/resources/c3.jpg" alt="Valladolid" style="width: 100%; height: 500px" />
+                                    <img src="#{request.contextPath}/resources/c3.jpg" alt="Imagem 3" style="width: 100%; height: 500px" />
                                 </b:carouselItem>
                                 <b:carouselItem>
-                                    <img src="#{request.contextPath}/resources/c4.jpg" alt="Valladolid" style="width: 100%; height: 500px" />
+                                    <img src="#{request.contextPath}/resources/c4.jpg" alt="Imagem 4" style="width: 100%; height: 500px" />
                                     <b:carouselCaption>
                                         <h3>Paisagens paradisíacas</h3>
                                     </b:carouselCaption>
@@ -127,7 +141,7 @@
             </center>
 
         </b:container>
-
+        <br/><br/>
 
 
     </h:body>

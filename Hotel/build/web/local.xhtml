@@ -6,9 +6,30 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
-        <script src="#{request.contextPath}/js/script.js"/>
+
+        <script>
+        function myMap() {
+          var mapCanvas = document.getElementById("map");
+          var myCenter = new google.maps.LatLng(21.4814391,-157.9285832);
+          var mapOptions = {center: myCenter, zoom: 10, mapTypeId: google.maps.MapTypeId.TERRAIN };
+          var map = new google.maps.Map(mapCanvas,mapOptions);
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(21.3331277,-158.1213589),
+            animation: google.maps.Animation.BOUNCE
+          });
+          marker.setMap(map);
+
+          google.maps.event.addListener(marker,'click',function() {
+            map.setZoom(15);
+            map.setCenter(marker.getPosition());
+            });
+        }
+        </script>
+
+        <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&amp;key=AIzaSyDN1EaeFR5YhDx18W4i_c5UbRnI56eGgs4"></script>
+
     </h:head>
-    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="#{comunicacao.getId() eq 0 ? 'sair()' : ''};">
+    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="myMap();">
         <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
                 <h:form id='ftop' style="display: inline;">
@@ -26,7 +47,7 @@
                     <b:inputSecret id="senha" placeholder="Senha" value="#{hospede.senha}"/>
                 </div>
                 <div class="form-group">
-                    <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'index')}"/>
+                    <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'local')}"/>
                 </div>
             </h:form>
             <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
@@ -45,7 +66,7 @@
             </b:navbarLinks>
         </b:navBar>
 
-        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform5">
+        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform3">
             <b:container>
                 <b:row>
                     <b:column span="7">
@@ -60,7 +81,9 @@
         <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '2px'};">
             
             <center>
-                <h1>Confirmação</h1>
+                <h1>Localização do Aloha</h1>
+                <br/>
+                <div id="map" style="width:80%;height:500px"></div>
             </center>
 
 

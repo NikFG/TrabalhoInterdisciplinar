@@ -3,10 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package pack;
 
+import conexao.Conector;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 import javax.faces.bean.ManagedBean;
+import model.DaoHospede;
+import model.Hospede;
 
 /**
  *
@@ -14,8 +19,9 @@ import javax.faces.bean.ManagedBean;
  */
 
 @ManagedBean
-public class Hospede {
+public class Edita {
     
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private int idHospede;
     private String nome;
     private String CPF;
@@ -31,36 +37,10 @@ public class Hospede {
     private String Identidade;
     private String Email;
     private String Senha;
-
-    //<editor-fold defaultstate="collapsed" desc="Construtores">
-    public Hospede() {
-    }
-
-    public Hospede(String Email, String Senha) {
-        this.Email = Email;
-        this.Senha = Senha;
-    }
-    
-    public Hospede(int idHospede, String nome, String CPF, String EndRua, int EndNumero, String EndComplemento, String EndBairro, String EndCidade, int EndCEP, Date DataNascimento, int TelefoneResidencia, int TelefoneCelular, String Identidade, String Email, String Senha) {
-        this.idHospede = idHospede;
-        this.nome = nome;
-        this.CPF = CPF;
-        this.EndRua = EndRua;
-        this.EndNumero = EndNumero;
-        this.EndComplemento = EndComplemento;
-        this.EndBairro = EndBairro;
-        this.EndCidade = EndCidade;
-        this.EndCEP = EndCEP;
-        this.DataNascimento = DataNascimento;
-        this.TelefoneResidencia = TelefoneResidencia;
-        this.TelefoneCelular = TelefoneCelular;
-        this.Identidade = Identidade;
-        this.Email = Email;
-        this.Senha = Senha;
-    }
     //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    //<editor-fold defaultstate="collapsed" desc="Construtores, Getters e Setters">
+    public Edita() {
+    }
 
     public int getIdHospede() {
         return idHospede;
@@ -181,12 +161,46 @@ public class Hospede {
     public void setSenha(String Senha) {
         this.Senha = Senha;
     }
-    
     //</editor-fold>
-
-    @Override
-    public String toString() {
-        return "Hospede{" + "idHospede=" + idHospede + ", nome=" + nome + ", CPF=" + CPF + ", EndRua=" + EndRua + ", EndNumero=" + EndNumero + ", EndComplemento=" + EndComplemento + ", EndBairro=" + EndBairro + ", EndCidade=" + EndCidade + ", EndCEP=" + EndCEP + ", DataNascimento=" + DataNascimento + ", TelefoneResidencia=" + TelefoneResidencia + ", TelefoneCelular=" + TelefoneCelular + ", Identidade=" + Identidade + ", Email=" + Email + ", Senha=" + Senha + '}';
+        
+    public void preencher(int id) throws SQLException{
+        Conector con = new Conector();
+        Connection c = con.getConexao();
+        if(c!=null){
+            DaoHospede dh = new DaoHospede(c);
+            Hospede h = dh.pesquisaID(id);
+            System.out.println(h.getEmail());
+            //nome.setValue(h.getEmail());
+            idHospede=h.getIdHospede();
+            nome=h.getNome();
+            CPF=h.getCPF();
+            EndRua=h.getEndRua();
+            EndNumero=h.getEndNumero();
+            EndComplemento=h.getEndComplemento();
+            EndBairro=h.getEndBairro();
+            EndCidade=h.getEndCidade();
+            EndCEP=h.getEndCEP();
+            DataNascimento=h.getDataNascimento();
+            TelefoneResidencia=h.getTelefoneResidencia();
+            TelefoneCelular=h.getTelefoneCelular();
+            Identidade=h.getIdentidade();
+            Email=h.getEmail();
+            Senha=h.getSenha();
+        }
+    }
+    
+    public String editar() throws SQLException{
+        Conector con = new Conector();
+        Connection c = con.getConexao();
+        if(c!=null){    
+            Hospede h = new Hospede(idHospede, nome, CPF, EndRua, EndNumero, EndComplemento, EndBairro, EndCidade, EndCEP, DataNascimento, TelefoneResidencia, TelefoneCelular, Identidade, Email, Senha);
+            DaoHospede dh = new DaoHospede(c);
+            System.out.println(h.getIdHospede());
+            dh.editar(h);
+            return "index";
+        } else {
+            return "";
+        }  
     }
     
 }

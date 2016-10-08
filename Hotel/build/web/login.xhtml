@@ -9,32 +9,21 @@
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
     </h:head>
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Reservas" href="reservas.xhtml" style="display: #{comunicacao.getNome() eq null ? 'none' : 'block'}"></b:navLink>
-                <b:navLink value="Contate-nos" href="contate.xhtml"></b:navLink>
-                <b:dropMenu value="Sobre ">
-                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
-                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
-                </b:dropMenu>
-            </b:navbarLinks>
-            <b:navbarLinks style="float:right">
-                <b:navLink value="Olá #{comunicacao.nome} !" style="display: #{comunicacao.getNome() eq null ? 'none' : 'block'}"></b:navLink>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
             </b:navbarLinks>
         </b:navBar>
-        <br/>
-        <h:form style="display:none;" binding="#{comunicacao.form}">
-            <b:container>
-                <b:row>
-                    <b:column span="7"></b:column>
-                    <b:column span="4">
-                        <b:alert severity="danger" closable="true" style="padding:5px"><h:outputText binding="#{comunicacao.opt}" value=""/></b:alert>
-                    </b:column>
-                </b:row>
-            </b:container>
-        </h:form>
 
-        
+        <h:form style="display:none;" binding="#{comunicacao.form}" id="aform4">
+            <b:shake onshake="sair();"/>
+        </h:form>
+        <br/>
 
         <b:container>
             <h1 style="margin-left: 5%;color:darkblue">Identificação</h1>
@@ -59,7 +48,13 @@
                                 </f:facet>
                             </b:inputSecret>
                         </div>
-                        <br/><br/><br/>
+                        <br/><br/>
+
+                            <h:panelGroup style="visibility:hidden" binding="#{comunicacao.pan}">
+                                <b:alert severity="info" style="padding:5px; margin:10px 15px 5px 15px;text-align: center"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
+                            </h:panelGroup>
+                        
+                        <br/>
                         
                         <div class="form-group" style="margin-left: 4.5%;" span="12">
                             <b:commandButton value="Continuar" look="primary" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'confirmacao')}"/>
@@ -68,21 +63,21 @@
                     </h:form>
                 </b:column>
                 <b:column span="1" style="border-right: #479DCA 3px dashed;">
-                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 </b:column>
                 <b:column span="1">
                 </b:column>
                 <b:column span="4">
                     <h:form style="display: #{comunicacao.getNome() eq null ? 'block' : 'block'}">
-                        
+
                         <h2 style="margin-left: 3%;color:#5bc0de">Ainda não?</h2>
                         <br/><br/>
                         <ul style="list-style:circle">
-                            <li><h4 style="margin-left: 3%;">Está esperando o que?</h4></li>
+                            <li><h4 style="margin-left: 3%;">Está esperando o que?</h4><br/></li>
                             <li><h4 style="margin-left: 3%;">Cadastre-se para concluir a reserva</h4></li>
                         </ul>                       
-                        
-                        <br/><br/>
+
+                        <br/><br/><br/>
                         <a href="cadastro.xhtml" class="btn btn-info" style="margin-left: 3%;margin-top: -13px">Cadastre-se »</a>
                         <br/>
                     </h:form>
@@ -90,8 +85,8 @@
                 <b:column span="1"></b:column>
             </b:row>
         </b:container>
-     
-          
-   
-      </h:body>
-  </html>
+
+
+
+    </h:body>
+</html>

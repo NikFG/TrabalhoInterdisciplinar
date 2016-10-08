@@ -2,44 +2,68 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:b="http://bootsfaces.net/ui">
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
-        <style>
-            .hclass{
-                text-align:center;
-                background:none repeat scroll 0 0 #E5E5E5;
-                border-bottom:1px solid #BBBBBB;
-                padding:16px;
-            }
-        </style>
+        <script src="#{request.contextPath}/js/script.js"/>
     </h:head>
-    <h:body style="padding-top: 50px; padding-bottom: 20px;">
-        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top" brandHref="index.xhtml">
+    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="#{comunicacao.getId() eq 0 ? 'sair()' : ''};">
+        <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
-                <b:navLink value="Reservas" href="reservas.xhtml"></b:navLink>
-                <b:dropMenu value="Sobre">
-                    <b:navLink value="Localização" href="local.xhtml"></b:navLink>
-                    <b:navLink value="Preços" href="precos.xhtml"></b:navLink>
-                </b:dropMenu>
+                <h:form id='ftop' style="display: inline;">
+                    <h:inputHidden value="#{comunicacao.nome}" id="cnome"/>
+                    <h:inputHidden value="#{comunicacao.id}" id="cid"/>
+                    <b:commandButton action="contate" value="Contate-nos" style="padding: 15px 10px;border:none;background: transparent;color:#777"></b:commandButton>
+                    <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
+                </h:form>
             </b:navbarLinks>
-            <h:form styleClass="navbar-form navbar-right" style="display: #{hospede.email eq null ? 'block' : 'gone'}">
+            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getId() eq 0 ? 'inline' : 'none'}" id="flog">
                 <div class="form-group">
-                    <b:inputText id="login" placeholder="Email"/>
+                    <b:inputText id="login" placeholder="Email" value="#{hospede.email}"/>
                 </div>
                 <div class="form-group">
-                    <b:inputSecret id="senha" placeholder="Senha"/>
+                    <b:inputSecret id="senha" placeholder="Senha" value="#{hospede.senha}"/>
                 </div>
                 <div class="form-group">
-                    <b:commandButton value="Logar" look="info" icon="chevron-right" iconAlign="right"/>
+                    <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'index')}"/>
                 </div>
             </h:form>
+            <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
+                <b:dropMenu value=" #{comunicacao.nome}">
+                    <h:form id='fsaud'>
+                        <h:inputHidden value="#{comunicacao.nome}" id="snome"/>
+                        <h:inputHidden value="#{comunicacao.id}" id="sid"/>
+                        <b:commandButton action="reservas" value="Reservas" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:commandButton action="editar" value="Editar perfil" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
+                        <b:navLink/>
+                        <b:button onclick="sair();" value="Sair" style="text-align: left;width:100%;border:none;background: transparent;color:#777"/>
+                        
+                    </h:form>
+                </b:dropMenu>
+            </b:navbarLinks>
         </b:navBar>
-        <br></br><br></br><br></br>
-        <b:container>
-            <h1>Confirmação</h1>
+
+        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform5">
+            <b:container>
+                <b:row>
+                    <b:column span="7">
+                    <b:shake onshake="sair();"/></b:column>
+                    <b:column span="4">
+                        <b:alert severity="danger" style="padding:5px; margin-top:10px"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
+                    </b:column>
+                </b:row>
+            </b:container>
+        </h:form>
+        <div style="padding-top:20px;display: #{comunicacao.getId() eq 0 ? 'none' : 'inline'}"><br/></div>
+        <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '2px'};">
+            
+            <center>
+                <h1>Confirmação</h1>
+            </center>
+
+
         </b:container>
 
 

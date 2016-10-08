@@ -6,9 +6,9 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
-        <script src="#{request.contextPath}/js/script.js"/>
+
     </h:head>
-    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="#{comunicacao.getId() eq 0 ? 'sair()' : ''};">
+    <h:body style="padding-top: 50px; padding-bottom: 20px;">
         <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
                 <h:form id='ftop' style="display: inline;">
@@ -18,17 +18,6 @@
                     <b:commandButton action="local" value="Localização" style="padding: 15px 8px;border:none;background: transparent;color:#777"></b:commandButton>
                 </h:form>
             </b:navbarLinks>
-            <h:form styleClass="navbar-form navbar-right" style="display: #{comunicacao.getId() eq 0 ? 'inline' : 'none'}" id="flog">
-                <div class="form-group">
-                    <b:inputText id="login" placeholder="Email" value="#{hospede.email}"/>
-                </div>
-                <div class="form-group">
-                    <b:inputSecret id="senha" placeholder="Senha" value="#{hospede.senha}"/>
-                </div>
-                <div class="form-group">
-                    <b:commandButton value="Entrar" look="info" icon="chevron-right" iconAlign="right" action="#{comunicacao.login(hospede.email, hospede.senha,'index')}"/>
-                </div>
-            </h:form>
             <b:navbarLinks style="display: #{comunicacao.getId() eq 0 ? 'none' : 'block'};float:right">
                 <b:dropMenu value=" #{comunicacao.nome}">
                     <h:form id='fsaud'>
@@ -45,11 +34,10 @@
             </b:navbarLinks>
         </b:navBar>
 
-        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform5">
+        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id='fav'>
             <b:container>
                 <b:row>
-                    <b:column span="7">
-                    <b:shake onshake="sair();"/></b:column>
+                    <b:column span="7"></b:column>
                     <b:column span="4">
                         <b:alert severity="danger" style="padding:5px; margin-top:10px"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
                     </b:column>
@@ -60,7 +48,7 @@
         <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '2px'};">
             
             <center>
-                <h1>Confirmação</h1>
+                <h1>Reservas</h1>
             </center>
 
 
