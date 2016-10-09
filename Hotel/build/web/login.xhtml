@@ -19,6 +19,28 @@
                 </h:form>
             </b:navbarLinks>
         </b:navBar>
+        <a style="position: fixed;top:90%;left:95%;text-decoration:none;cursor: pointer;font-size: 16px;background: black;color: cyan;padding:3px 10px;border-radius: 50%;font-weight: bold" href="#amodal1" data-toggle="modal">?</a>
+        <b:modal id="amodal1" title="Explicação do Formulário" styleClass="modalPseudoClass">
+            <p>
+                &#160;&#160;&#160;&#160;
+                Nessa página, temos um formulário com 2 campos, sendo o primeiro para entrar com o email e o
+                segundo para digitar a senha correspondente.
+            </p>
+            <p>
+                &#160;&#160;&#160;&#160;
+                Assim, após entrar com os dados válidos, só falta clicar no botão "Continuar" para ir à página
+                de confirmação da reserva.
+            </p>
+            <p>
+                &#160;&#160;&#160;&#160;
+                Além disso, há um outro botão, "Cadastre-se", que, ao ser clicado, lhe redireciona à página de
+                cadastro.
+            </p>
+            <f:facet name="footer">
+                <center><strong>Qualquer dúvida que surgir, entre em contato conosco.<br/>Mais informações na página "Contate-nos".</strong></center>
+                <b:button value="OK" look="primary" dismiss="modal" onclick="return false;"/>
+            </f:facet>
+        </b:modal>
 
         <h:form style="display:none;" binding="#{comunicacao.form}" id="aform4">
             <b:shake onshake="sair();"/>

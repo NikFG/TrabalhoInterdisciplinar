@@ -53,6 +53,24 @@
                 </b:dropMenu>
             </b:navbarLinks>
         </b:navBar>
+        <a style="position: fixed;top:90%;left:95%;text-decoration:none;cursor: pointer;font-size: 16px;background: black;color: cyan;padding:3px 10px;border-radius: 50%;font-weight: bold" href="#amodal1" data-toggle="modal">?</a>
+        <b:modal id="amodal1" title="Explicação do Formulário" styleClass="modalPseudoClass">
+            <p>
+                &#160;&#160;&#160;&#160;
+                Nessa página, temos um formulário com 3 campos, sendo os dois primeiros para esolher as datas de
+                entrada e saída, respectivamente, e o terceiro para escolher o tipo de quarto desejado entre as
+                opções previamente definidas.
+            </p>
+            <p>
+                &#160;&#160;&#160;&#160;
+                Assim, após entrar com os dados válidos, só falta clicar no botão "Buscar" para realizar a pesquisa
+                entre os quartos que ainda estão sem reserva no Hotel.
+            </p>            
+            <f:facet name="footer">
+                <center><strong>Qualquer dúvida que surgir, entre em contato conosco.<br/>Mais informações na página "Contate-nos".</strong></center>
+                <b:button value="OK" look="primary" dismiss="modal" onclick="return false;"/>
+            </f:facet>
+        </b:modal>
 
         <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id="aform2">
             <b:container id="con">

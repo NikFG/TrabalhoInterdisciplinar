@@ -6,24 +6,27 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
-
+        <script src="#{request.contextPath}/js/script.js"/>
+        
         <script>
-        function myMap() {
-          var mapCanvas = document.getElementById("map");
-          var myCenter = new google.maps.LatLng(21.4814391,-157.9285832);
-          var mapOptions = {center: myCenter, zoom: 10, mapTypeId: google.maps.MapTypeId.TERRAIN };
-          var map = new google.maps.Map(mapCanvas,mapOptions);
-          var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(21.3331277,-158.1213589),
-            animation: google.maps.Animation.BOUNCE
-          });
-          marker.setMap(map);
+            
+            function myMap() {
+              var mapCanvas = document.getElementById("map");
+              var myCenter = new google.maps.LatLng(21.4814391,-157.9285832);
+              var mapOptions = {center: myCenter, zoom: 10, mapTypeId: google.maps.MapTypeId.TERRAIN };
+              var map = new google.maps.Map(mapCanvas,mapOptions);
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(21.3331277,-158.1213589),
+                animation: google.maps.Animation.BOUNCE
+              });
+              marker.setMap(map);
 
-          google.maps.event.addListener(marker,'click',function() {
-            map.setZoom(15);
-            map.setCenter(marker.getPosition());
-            });
-        }
+              google.maps.event.addListener(marker,'click',function() {
+                map.setZoom(15);
+                map.setCenter(marker.getPosition());
+                });
+            }
+            
         </script>
 
         <script src="https://maps.googleapis.com/maps/api/js?callback=myMap&amp;key=AIzaSyDN1EaeFR5YhDx18W4i_c5UbRnI56eGgs4"></script>
@@ -84,12 +87,11 @@
                 <h1>Localização do Aloha</h1>
                 <br/>
                 <div id="map" style="width:80%;height:500px"></div>
+                <br/><br/>
             </center>
 
 
         </b:container>
-
-
 
     </h:body>
 </html>
