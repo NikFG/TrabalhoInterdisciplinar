@@ -2,6 +2,46 @@ function sair() {
     window.location.href = "index.xhtml";
 }
 
+function verificard(){
+    var c = document.getElementById('form:datanasc');
+    data = c.value;
+    var date = new Date(data);
+    var hoje = new Date();
+    hoje.setDate(hoje.getDate());
+    
+    var linha = document.getElementById('clinha');
+    var campo = document.getElementById('form:caviso');
+        
+    v = getAge(data);
+    
+    if(invalidDate(data)){
+        c.value="";
+        linha.style.display = 'table-cell';
+        campo.innerHTML = "Data inválida!";
+    } else if (hoje < date) {
+        c.value="";
+        linha.style.display = 'table-cell';
+        campo.innerHTML = "Data inválida!";
+    } else if(v<18) {
+        c.value="";
+        linha.style.display = 'table-cell';
+        campo.innerHTML = "Você precisa ter mais de 18 anos!";        
+    } else {
+        linha.style.display = 'none';
+        campo.innerHTML = "Campo correto!";
+        if(data.length !== 10){
+            res = data.split('/');
+            if(res[2]<hoje.getYear()-99){
+                datax = res[0] + '/' + res[1] + '/20' + res[2];
+            } else {
+                datax = res[0] + '/' + res[1] + '/19' + res[2];
+            }
+            c.value=datax;
+        }        
+    }
+    
+}
+
 function verificar1(aux) {
     var c1 = document.getElementById('escolha:entrada');
     var c2 = document.getElementById('escolha:saida');
@@ -78,4 +118,15 @@ function verificar2() {
         alerta.style.visibility = 'hidden';
         campo.innerHTML = "Alerta!";
     }
+}
+
+function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
 }

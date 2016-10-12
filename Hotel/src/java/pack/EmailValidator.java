@@ -14,17 +14,24 @@ import java.util.regex.Pattern;
  */
 public class EmailValidator {
 
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private Pattern pattern;
     private Matcher matcher;
-
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Construtor">
+    /**
+     *
+     */
     public EmailValidator() {
             pattern = Pattern.compile(EMAIL_PATTERN);
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
     /**
      * Validate hex with regular expression
      *
@@ -38,4 +45,6 @@ public class EmailValidator {
             return matcher.matches();
 
     }
+    //</editor-fold>
+    
 }

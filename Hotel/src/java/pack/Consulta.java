@@ -18,46 +18,83 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 public class Consulta {
     
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private Date dentrada;
     private Date dsaida;
     private String tipo;
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Construtor">
+    /**
+     *
+     */
     public Consulta() {
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters e Setters">
+    /**
+     *
+     * @return
+     */
     public String getTipo() {
         return tipo;
     }
 
+    /**
+     *
+     * @param tipo
+     */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDentrada() {
         return dentrada;
     }
 
+    /**
+     *
+     * @param dentrada
+     */
     public void setDentrada(Date dentrada) {
         this.dentrada = dentrada;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDsaida() {
         return dsaida;
     }
 
+    /**
+     *
+     * @param dsaida
+     */
     public void setDsaida(Date dsaida) {
         this.dsaida = dsaida;
     }
+    //</editor-fold>
     
-    public String getNomeParam(FacesContext fc){
-        Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
-        return params.get("nome");
-    }
-    
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    /**
+     *
+     * @return
+     */
     public boolean isEmpty(){
         return(dentrada==null||dsaida==null||tipo.equals(""));
     }
     
+    /**
+     *
+     * @return
+     */
     public String verificar(){
         
         if(dentrada!=null&&dsaida!=null){
@@ -94,4 +131,6 @@ public class Consulta {
             return "";
         }
     }    
+    //</editor-fold>
+    
 }

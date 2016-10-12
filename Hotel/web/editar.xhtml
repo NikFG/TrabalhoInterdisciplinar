@@ -86,9 +86,17 @@
                                     </tr>
                                     <tr>
                                         <td>Data de Nascimento:&#160;&#160;&#160;</td>
-                                        <td><b:inputText styleClass="data" id="data" required="true" value="#{edita.dataNascimento}">                            
-                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                            </b:inputText>
+                                        <td>                                            
+                                            <div class="form-group" onchange="verificard()">
+                                                <b:datepicker id="datanasc" placeholder="__/__/____" mode="popup-icon" firstDay="0" changeMonth="true" changeYear="true" value="#{edita.dataNascimento}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </b:datepicker>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="clinha" style="display:none;">
+                                            <b:alert severity="info" style="padding:5px;text-align:center; margin:-2px 0 6px 0; width: 100%;display:block" id="calert" closable="true"><h:outputText value="Avaaaaaaaaaaaaaaaaaaaiso" id="caviso"/></b:alert>
                                         </td>
                                     </tr>
                                     <tr>

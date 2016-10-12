@@ -23,13 +23,25 @@ import model.*;
 @ManagedBean
 public class Comunicacao {
     
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private String nome=null;
     private int id=0;
     private HtmlOutputText opt;
     private HtmlOutputText opt2;
     private HtmlForm form;
     private HtmlPanelGroup pan;
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    /**
+     *
+     * @param Email
+     * @param Senha
+     * @param opc
+     * @return tela
+     * @throws SQLException
+     * @throws IOException
+     */
     public String login(String Email, String Senha, String opc) throws SQLException, IOException{
         Conector con = new Conector();
         Connection c = con.getConexao();
@@ -62,6 +74,12 @@ public class Comunicacao {
         }
     }
     
+    /**
+     *
+     * @param h
+     * @return tela
+     * @throws SQLException
+     */
     public String cadastrar(Hospede h) throws SQLException{
         Conector con = new Conector();
         Connection c = con.getConexao();
@@ -112,6 +130,10 @@ public class Comunicacao {
         //?faces-redirect=true
     }
     
+    /**
+     *
+     * @throws SQLException
+     */
     public void preencher() throws SQLException{
         Conector con = new Conector();
         Connection c = con.getConexao();
@@ -122,11 +144,10 @@ public class Comunicacao {
         }
     }
     
-    public String verificar(String email, String senha) throws SQLException, IOException{
-        String r = login(email,senha,"index");
-        return nome;
-    }
-    
+    /**
+     *
+     * @return tela
+     */
     public String isLogged(){
         if(nome==null || id==0){
             return "login";
@@ -134,7 +155,32 @@ public class Comunicacao {
             return "confirmacao";
         }
     }
+    
+    /**
+     *
+     * @return tipo
+     * @throws java.sql.SQLException
+     */
+    public String buscarTipo() throws SQLException{
+        Conector con = new Conector();
+        Connection c = con.getConexao();
+        if(c!=null){
+            DaoHospede dh = new DaoHospede(c);
+            return dh.buscarTipo(id);
+        } else {
+            return "";
+        }
+    }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Construtores">
+    /**
+     *
+     * @param opt
+     * @param opt2
+     * @param form
+     * @param pan
+     */
     public Comunicacao(HtmlOutputText opt,HtmlOutputText opt2,HtmlForm form,HtmlPanelGroup pan) {
         this.nome = null;
         this.opt= opt;
@@ -143,54 +189,108 @@ public class Comunicacao {
         this.pan=pan;
     }
     
+    /**
+     *
+     */
     public Comunicacao() {        
     }
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters e Setters">
+    /**
+     *
+     * @return
+     */
     public HtmlOutputText getOpt() {
         return opt;
     }
 
+    /**
+     *
+     * @param opt
+     */
     public void setOpt(HtmlOutputText opt) {
         this.opt = opt;
     }
 
+    /**
+     *
+     * @return
+     */
     public HtmlOutputText getOpt2() {
         return opt2;
     }
 
+    /**
+     *
+     * @param opt2
+     */
     public void setOpt2(HtmlOutputText opt2) {
         this.opt2 = opt2;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     *
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     *
+     * @return
+     */
     public HtmlForm getForm() {
         return form;
     }
 
+    /**
+     *
+     * @param form
+     */
     public void setForm(HtmlForm form) {
         this.form = form;
     }
 
+    /**
+     *
+     * @return
+     */
     public HtmlPanelGroup getPan() {
         return pan;
     }
 
+    /**
+     *
+     * @param pan
+     */
     public void setPan(HtmlPanelGroup pan) {
         this.pan = pan;
     }
+    //</editor-fold>
 }

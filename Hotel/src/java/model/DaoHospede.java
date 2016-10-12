@@ -7,13 +7,11 @@
 package model;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
-import javax.faces.bean.ManagedBean;
 
 /**
  *
@@ -22,11 +20,21 @@ import javax.faces.bean.ManagedBean;
 
 public class DaoHospede {
 
+    //<editor-fold defaultstate="collapsed" desc="Atributos">
     private final Connection conn;
     private final Statement stmt;
     private ResultSet result;
     private final PreparedStatement pstm, view;
+    ResultSet rs;
+    //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Construtor">
+    
+    /**
+     *
+     * @param conn
+     * @throws SQLException
+     */
     public DaoHospede(Connection conn) throws SQLException {
         this.conn = conn;
         //Criando o Statement para conversaÃ§Ã£o com o banco
@@ -34,7 +42,15 @@ public class DaoHospede {
         pstm = conn.prepareStatement("SELECT * FROM hospede");
         view = conn.prepareStatement("SELECT * FROM hospede ORDER BY nome");
     }
-
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    /**
+     *
+     * @param hospede
+     * @return int
+     * @throws SQLException
+     */
     public int inserir(Hospede hospede) throws SQLException {
         //Ordem dos valores: idhospede, nome, uf
         String SQL = "INSERT INTO hospede VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -70,11 +86,22 @@ public class DaoHospede {
         return r;
     }
 
+    /**
+     *
+     * @param value
+     * @return
+     * @throws SQLException
+     */
     public int excluir(int value) throws SQLException {
         String SQL = "DELETE FROM hospede where idHospede = " + value;
         return stmt.executeUpdate(SQL);
     }
 
+    /**
+     *
+     * @param hospede
+     * @throws SQLException
+     */
     public void editar(Hospede hospede) throws SQLException {
         String SQL = "UPDATE hospede SET " +
                             "Nome = ? , " +
@@ -124,15 +151,47 @@ public class DaoHospede {
         ps.close();
     }
     
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public ResultSet view() throws SQLException {
         result = pstm.executeQuery();
         return this.result;
     }
     
+    /**
+     *
+     * @param rs
+     * @return
+     * @throws SQLException
+     */
     public Hospede bdToObject(ResultSet rs) throws SQLException {
         return new Hospede(rs.getInt("idHospede"),rs.getString("nome"),rs.getString("CPF"),rs.getString("EndRua"),rs.getInt("EndNumero"),rs.getString("EndComplemento"),rs.getString("EndBairro"),rs.getString("EndCidade"),rs.getInt("EndCEP"),rs.getDate("DataNascimento"),rs.getInt("TelefoneResidencia"),rs.getInt("TelefoneCelular"),rs.getString("Identidade"),rs.getString("Email"),rs.getString("Senha"));
     }
     
+    /**
+     *
+     * @param id
+     * @return tipo
+     * @throws SQLException
+     */
+    public String buscarTipo(int id) throws SQLException {
+        PreparedStatement pStm = conn.prepareStatement("CALL `reserva`.`BuscarTipo`(?);");
+        pStm.setInt(1, id);
+        rs = pStm.executeQuery();
+        rs.next();
+        String tipo = rs.getString("Tipo");
+        return tipo;
+    }
+    
+    /**
+     *
+     * @param id
+     * @return hospede
+     * @throws SQLException
+     */
     public Hospede pesquisaID(int id) throws SQLException {
         Hospede hospede;
         PreparedStatement pStm = conn.prepareStatement("SELECT * FROM hospede WHERE idHospede = ? ");
@@ -144,6 +203,12 @@ public class DaoHospede {
         return hospede;
     }
     
+    /**
+     *
+     * @param Email
+     * @return boolean
+     * @throws SQLException
+     */
     public boolean pesquisaEm(String Email) throws SQLException {
         Hospede hospede;
         PreparedStatement pStm = conn.prepareStatement("SELECT * FROM hospede WHERE Email = ?");
@@ -157,6 +222,13 @@ public class DaoHospede {
         }
     }
     
+    /**
+     *
+     * @param Email
+     * @param Senha
+     * @return hospede
+     * @throws SQLException
+     */
     public Hospede pesquisaES(String Email, String Senha) throws SQLException {
         Hospede hospede;
         PreparedStatement pStm = conn.prepareStatement("SELECT * FROM hospede WHERE Email = ? and Senha = ?");
@@ -172,5 +244,5 @@ public class DaoHospede {
             return hospede;
         }
     }
-            ResultSet rs;
+    //</editor-fold>
 }

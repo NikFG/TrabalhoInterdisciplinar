@@ -38,131 +38,264 @@ public class Edita {
     private String Email;
     private String Senha;
     //</editor-fold>
-    //<editor-fold defaultstate="collapsed" desc="Construtores, Getters e Setters">
+    
+    //<editor-fold defaultstate="collapsed" desc="Construtor">
+    /**
+     *
+     */
     public Edita() {
     }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Getters e Setters">
 
+    /**
+     *
+     * @return
+     */
     public int getIdHospede() {
         return idHospede;
     }
 
+    /**
+     *
+     * @param idHospede
+     */
     public void setIdHospede(int idHospede) {
         this.idHospede = idHospede;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNome() {
         return nome;
     }
 
+    /**
+     *
+     * @param nome
+     */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCPF() {
         return CPF;
     }
 
+    /**
+     *
+     * @param CPF
+     */
     public void setCPF(String CPF) {
         this.CPF = CPF;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEndRua() {
         return EndRua;
     }
 
+    /**
+     *
+     * @param EndRua
+     */
     public void setEndRua(String EndRua) {
         this.EndRua = EndRua;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getEndNumero() {
         return EndNumero;
     }
 
+    /**
+     *
+     * @param EndNumero
+     */
     public void setEndNumero(int EndNumero) {
         this.EndNumero = EndNumero;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEndComplemento() {
         return EndComplemento;
     }
 
+    /**
+     *
+     * @param EndComplemento
+     */
     public void setEndComplemento(String EndComplemento) {
         this.EndComplemento = EndComplemento;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEndBairro() {
         return EndBairro;
     }
 
+    /**
+     *
+     * @param EndBairro
+     */
     public void setEndBairro(String EndBairro) {
         this.EndBairro = EndBairro;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEndCidade() {
         return EndCidade;
     }
 
+    /**
+     *
+     * @param EndCidade
+     */
     public void setEndCidade(String EndCidade) {
         this.EndCidade = EndCidade;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getEndCEP() {
         return EndCEP;
     }
 
+    /**
+     *
+     * @param EndCEP
+     */
     public void setEndCEP(int EndCEP) {
         this.EndCEP = EndCEP;
     }
 
+    /**
+     *
+     * @return
+     */
     public Date getDataNascimento() {
         return DataNascimento;
     }
 
+    /**
+     *
+     * @param DataNascimento
+     */
     public void setDataNascimento(Date DataNascimento) {
         this.DataNascimento = DataNascimento;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTelefoneResidencia() {
         return TelefoneResidencia;
     }
 
+    /**
+     *
+     * @param TelefoneResidencia
+     */
     public void setTelefoneResidencia(int TelefoneResidencia) {
         this.TelefoneResidencia = TelefoneResidencia;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getTelefoneCelular() {
         return TelefoneCelular;
     }
 
+    /**
+     *
+     * @param TelefoneCelular
+     */
     public void setTelefoneCelular(int TelefoneCelular) {
         this.TelefoneCelular = TelefoneCelular;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getIdentidade() {
         return Identidade;
     }
 
+    /**
+     *
+     * @param Identidade
+     */
     public void setIdentidade(String Identidade) {
         this.Identidade = Identidade;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return Email;
     }
 
+    /**
+     *
+     * @param Email
+     */
     public void setEmail(String Email) {
         this.Email = Email;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSenha() {
         return Senha;
     }
 
+    /**
+     *
+     * @param Senha
+     */
     public void setSenha(String Senha) {
         this.Senha = Senha;
     }
     //</editor-fold>
-        
+      
+    //<editor-fold defaultstate="collapsed" desc="Métodos">
+    /**
+     *
+     * @param id
+     * @throws SQLException
+     */
     public void preencher(int id) throws SQLException{
         Conector con = new Conector();
         Connection c = con.getConexao();
@@ -189,6 +322,11 @@ public class Edita {
         }
     }
     
+    /**
+     *
+     * @return
+     * @throws SQLException
+     */
     public String editar() throws SQLException{
         Conector con = new Conector();
         Connection c = con.getConexao();
@@ -202,5 +340,6 @@ public class Edita {
             return "";
         }  
     }
+    //</editor-fold>
     
 }

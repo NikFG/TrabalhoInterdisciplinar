@@ -7,6 +7,7 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <script src="#{request.contextPath}/js/script.js"/>
     </h:head>
     <h:body style="padding-top: 50px; padding-bottom: 20px;">
         <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
@@ -66,8 +67,8 @@
 
                     <b:container>
                         <b:row>
-                            <b:column span="4"></b:column>
-                            <b:column span="4">
+                            <b:column span="3"></b:column>
+                            <b:column span="6">
                                 <table>
                                     <tr>
                                         <td colspan="2"><h1 style="text-align:center">Cadastro</h1><br/></td>
@@ -106,9 +107,17 @@
                                     </tr>
                                     <tr>
                                         <td>Data de Nascimento:&#160;&#160;&#160;</td>
-                                        <td><b:inputText styleClass="data" id="data" value="#{hospede.dataNascimento}">                            
-                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                            </b:inputText>
+                                        <td>                                            
+                                            <div class="form-group" onchange="verificard()">
+                                                <b:datepicker id="datanasc" placeholder="__/__/____" mode="popup-icon" firstDay="0" changeMonth="true" changeYear="true" value="#{hospede.dataNascimento}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </b:datepicker>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" id="clinha" style="display:none;">
+                                            <b:alert severity="info" style="padding:5px;text-align:center; margin:-2px 0 6px 0; width: 100%;display:block" id="calert" closable="true"><h:outputText value="Avaaaaaaaaaaaaaaaaaaaiso" id="caviso"/></b:alert>
                                         </td>
                                     </tr>
                                     <tr>
@@ -143,7 +152,7 @@
                                     </tr>
                                 </table>
                             </b:column>
-                            <b:column span="4"></b:column>
+                            <b:column span="3"></b:column>
                         </b:row>
                     </b:container>
                 </h:form>

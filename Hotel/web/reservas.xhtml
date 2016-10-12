@@ -6,9 +6,10 @@
     <h:head>
         <title>Hotel Aloha</title>
         <link rel="shortcut icon" type="image/png" href="#{request.contextPath}/resources/icon.png" />
+        <script src="#{request.contextPath}/js/script.js"/>
 
     </h:head>
-    <h:body style="padding-top: 50px; padding-bottom: 20px;">
+    <h:body style="padding-top: 50px; padding-bottom: 20px;" onload="#{comunicacao.getId() eq 0 ? 'sair()' : ''};">
         <b:navBar brand="Hotel Aloha" inverse="false" fixed="top">
             <b:navbarLinks>
                 <h:form id='ftop' style="display: inline;">
@@ -28,27 +29,29 @@
                         <b:commandButton action="editar" value="Editar perfil" style="text-align: left;width:100%;border:none;background: transparent;color:#777"></b:commandButton>
                         <b:navLink/>
                         <b:button onclick="sair();" value="Sair" style="text-align: left;width:100%;border:none;background: transparent;color:#777"/>
-                        
+
                     </h:form>
                 </b:dropMenu>
             </b:navbarLinks>
         </b:navBar>
 
-        <h:form style="visibility: hidden;" binding="#{comunicacao.form}" id='fav'>
-            <b:container>
-                <b:row>
-                    <b:column span="7"></b:column>
-                    <b:column span="4">
-                        <b:alert severity="danger" style="padding:5px; margin-top:10px"><h:outputText binding="#{comunicacao.opt}" value="Aviso"/></b:alert>
-                    </b:column>
-                </b:row>
-            </b:container>
-        </h:form>
         <div style="padding-top:20px;display: #{comunicacao.getId() eq 0 ? 'none' : 'inline'}"><br/></div>
         <b:container style="padding-top:#{comunicacao.getId() eq 0 ? '0' : '2px'};">
-            
+
             <center>
                 <h1>Reservas</h1>
+
+                
+                <b:row style="margin-top: 350px">
+                    <b:column span="3">
+                    </b:column>
+                    <b:column span="6">
+                        <b:alert severity="success" style="padding:10px 0 0px 0;" closable="true">
+                            <h4>O tipo de quarto mais utilizado por você é o #{comunicacao.buscarTipo()}!</h4>
+                        </b:alert>
+                    </b:column>
+                </b:row>
+
             </center>
 
 
